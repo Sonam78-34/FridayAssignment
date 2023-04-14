@@ -1,0 +1,95 @@
+tddProgramWithXunit
+
+
+using System.CodeDom.Compiler;
+using System;
+using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
+
+namespace ClassLibrary1
+{
+    public class Class1
+    {
+        private static int daysInMonth;
+        private static int month;
+        private static DateTime lastDayOfMonth;
+        private string lastSundayDateWithMonthWithYear = " ";
+       
+        public string  month1(int year)
+        {
+            
+            for (month = 1; month <= 12; )
+            {
+                int daysInMonth = DateTime.DaysInMonth(year, month);
+                DateTime lastDayOfMonth = new DateTime(year, month, daysInMonth);
+                DayOfWeek lastDayOfWeek = lastDayOfMonth.DayOfWeek;
+
+
+
+
+                int lastsundayDate;
+                if (lastDayOfWeek == DayOfWeek.Sunday)
+                {
+                    lastsundayDate = daysInMonth;
+                }
+                else
+                {
+                    lastsundayDate = daysInMonth - (int)lastDayOfWeek;
+                }
+
+                  lastSundayDateWithMonthWithYear = string.Format("{0}-0{1}-{2}", year, month, lastsundayDate);
+                if (month > 9)
+                {
+                    lastSundayDateWithMonthWithYear = string.Format("{0}-{1}-{2}", year, month, lastsundayDate);
+                }
+                
+            }
+
+            return lastSundayDateWithMonthWithYear;
+
+
+        }
+    }
+}
+
+
+
+//===========================Class1.cs ===============================
+
+
+using ClassLibrary1;
+using FluentAssertions;
+
+namespace TddWithXunit
+{
+    public class UnitTest1
+    {
+        Class1 lastSunday = new Class1();
+        [Fact]
+        public void Test1()
+        {
+            string firstMonthLastSunday = "2013-02-24";
+            lastSunday.month1(2013).Should().Be(firstMonthLastSunday);
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
